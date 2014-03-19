@@ -1,0 +1,3 @@
+import Angluin
+
+main = angluin

@@ -1,0 +1,44 @@
+v1
+
+initial values
+s = [""]
+e = [""]
+w = []
+learn s e
+	make valid
+	getPrefixes				-- only the new rows or columns should be considered
+	make complete ?
+		learn s' e			-- Problem: this step checks again if complete which is not necessary
+	make consistent ?
+		learn s e'			-- in the table, only the columns for the new e need to be added
+	print automaton
+		learn s' e
+		
+to avoid double addition, only add one prefix or extension at a time
+
+
+  x = f y
+  y = g x
+  
+transpose???
+
+ToDo: remove unneccessary do's. See :i Monad
+
+
+
+
+OMG ES GIBT FUCKING SEQUENCE in Prelude!!! DAMIT KANN MAN DOCH EIN FAULES NACHFRAGEN MACHEN!!!
+wordQuery w =
+	let
+		b = lookup w words
+	in if b = Nothing then
+		askUser w
+	else b
+
+oder besser mit Prelude.maybe
+
+ist dann auch
+[wordQuery w1, wordquery w2] == [wordQuery w3, wordQuery w4]
+faul, wenn
+wordQuery w1 /= wordQuery w3
+?
