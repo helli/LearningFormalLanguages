@@ -26,8 +26,6 @@ ToDo: remove unneccessary do's. See :i Monad
 
 
 
-
-OMG ES GIBT FUCKING SEQUENCE in Prelude!!! DAMIT KANN MAN DOCH EIN FAULES NACHFRAGEN MACHEN!!!
 wordQuery w =
 	let
 		b = lookup w words
@@ -36,6 +34,8 @@ wordQuery w =
 	else b
 
 oder besser mit Prelude.maybe
+
+mit Prelude.sequence und listenkomprehension arbeiten
 
 ist dann auch
 [wordQuery w1, wordquery w2] == [wordQuery w3, wordQuery w4]
