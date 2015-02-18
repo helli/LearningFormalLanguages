@@ -16,13 +16,18 @@ learn s e
 		
 to avoid double addition, only add one prefix or extension at a time
 
+Automat soll beim Gegenbeispiel selbst entscheiden, ob es drinnen ist oder nicht.
 
   x = f y
   y = g x
+
+use Data.Set for an unordered list?
+
+need test suite...
   
 transpose???
 
-ToDo: remove unneccessary do's. See :i Monad
+ToDo: remove unnecessary do's. See :i Monad
 
 
 

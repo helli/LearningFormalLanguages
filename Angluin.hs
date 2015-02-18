@@ -12,7 +12,8 @@ type WordList = [String]
 type WordsAndTheirMembership = [(String, Bool)]
 
 -- an alphabet is a (sorted) set of chars
-type Alph = [Char]
+--type Alph = [Char]
+type Alph = String
 
 {-
 The "state" of the learning algorithm is stored in this Object. It consists of:
@@ -47,7 +48,7 @@ tabC = Tab s e w sigma
 	where
 		s = ["", "a", "c", "ab"]
 		e = ["", "b"]
-		--is there a better lookup if this were sorted?
+		--is there a better lookup if this is sorted?
 		--Maybe in Data.List.Ordered
 		--or in Data.Sorted
 		w = [("", False), ("a", False), ("c", True), ("ab", True), ("b", False), ("ab", True), ("cb", True), ("abb", True),("bb",False),("d",True),("db",True),("aa",False),("aab",True),("ac",True),("acb",True),("ad",True),("adb",True),("ca",True),("cab",True),("cbb",True),("cc",True),("ccb",True),("cd",True),("cdb",True),("aba",True),("abab",True),("abbb",True),("abc",True),("abcb",True),("abd",True),("abdb",True)]
@@ -77,16 +78,16 @@ bug1b = Tab s e w sigma
 --TODO s.Ex_13
 angluin = do
 	alph <- getAlphabet
-	tab <- return $ Tab [""] [""] [] alph
+	let tab = Tab [""] [""] [] alph
 	learn tab
 
 learn (Tab s e words a) = do
 	newWords <- getWords $ neededEntries (Tab s e words a)
-	if newWords == [] then do
-		newS <- return $ isComplete (Tab s e words a)
-		if newS == [] then do
-			newE <- return $ isConsistent (Tab s e words a)
-			if newE == [] then do
+	if null newWords then do
+		let newS = isComplete $ Tab s e words a
+		if null newS then do
+			let newE = isConsistent $ Tab s e words a
+			if null newE then do
 				print (Tab s e words a)
 				putStrLn "Does this DFA accept your language? If not, provide a counter example. Else type :q."
 				line <- getLine
@@ -96,12 +97,12 @@ learn (Tab s e words a) = do
 						print s
 						print e
 						print words
-					word -> learn (Tab (nub (s++(inits word))) e words a)
-			else do
+					word -> learn (Tab (nub (s ++ inits word)) e words a)
+			else
 				learn (Tab s (head newE:e) words a)
-		else do
+		else
 			learn (Tab (head newS:s) e words a)
-	else do
+	else
 		learn (Tab s e (words++newWords) a)
 
 			
@@ -110,7 +111,7 @@ instance Show Table where
 	--TODO: showsPrec :: Int -> a -> ShowS
 	--TODO: showList :: [a] -> ShowS
 
---result only correct if table complete and consistent
+--this output is only correct if the table is complete and consistent
 showAutomatonFromTable (Tab s e w a) =
 	let states = getStates  [ (a, [ lookup (a++b) w | b <- e ]) | a <- s ] --this is the s01 from below. TODO: make this only computed ONCE per cycle
 	in
